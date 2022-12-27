@@ -30,12 +30,12 @@ export function useSettings(): Readonly<IConfiguration> {
 
     React.useEffect(() => electronHost.send<IConfigRequest>({ type: 'config-request' }), [])
 
-    return React.useMemo((): IConfiguration => {
-        return {
+    return React.useMemo(
+        () => ({
             ...settings,
-            update<TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) {
-                setSettings({ ...settings, [key]: value })
-            },
-        }
-    }, [settings])
+            update: <TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) =>
+                setSettings({ ...settings, [key]: value }),
+        }),
+        [settings]
+    )
 }
