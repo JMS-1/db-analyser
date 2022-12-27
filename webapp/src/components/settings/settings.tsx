@@ -11,8 +11,9 @@ export interface IConfiguration extends IConfigurationData {
     update<TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]): void
 }
 
-const initialConfig: IConfigurationData = {
+const initialConfig: IConfiguration = {
     rootPath: '',
+    update: () => alert('out of bound call to settings updater'),
 }
 
 export function useSettings(): Readonly<IConfiguration> {
@@ -48,3 +49,6 @@ export function useSettings(): Readonly<IConfiguration> {
         [config, settings]
     )
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SettingsContext = React.createContext<IConfiguration>(initialConfig)

@@ -1,0 +1,11 @@
+:local(.directory) {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 0.5em;
+
+    > input,
+    > button {
+        font-size: 1em;
+    }
+}
