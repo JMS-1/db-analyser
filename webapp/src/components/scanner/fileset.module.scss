@@ -1,0 +1,9 @@
+:local(.files) {
+    $padding: 0.5em;
+
+    width: calc(100% - 2 * $padding);
+    height: calc(100% - 2 * $padding);
+    overflow: auto;
+    padding: $padding;
+    background: #ffffff;
+}
