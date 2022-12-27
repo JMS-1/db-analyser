@@ -1,0 +1,30 @@
+{
+    "compounds": [
+        {
+            "configurations": ["Hosted", "Host"],
+            "name": "Debug"
+        }
+    ],
+    "configurations": [
+        {
+            "name": "Hosted",
+            "port": 19191,
+            "request": "attach",
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${workspaceFolder}/webapp/src/*"
+            },
+            "sourceMaps": true,
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "console": "integratedTerminal",
+            "name": "Host",
+            "request": "launch",
+            "runtimeArgs": ["build/index.js", "--remote-debugging-port=19191"],
+            "runtimeExecutable": "${workspaceFolder}/node_modules/electron/cli.js",
+            "type": "node"
+        }
+    ],
+    "version": "0.2.0"
+}

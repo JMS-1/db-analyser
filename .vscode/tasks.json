@@ -1,0 +1,56 @@
+{
+    "tasks": [
+        {
+            "label": "build app",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "script": "build:app",
+            "type": "npm"
+        },
+        {
+            "isBackground": true,
+            "label": "watch app",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "script": "watch:app",
+            "type": "npm"
+        },
+        {
+            "label": "build host",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "script": "build:host",
+            "type": "npm"
+        },
+        {
+            "isBackground": true,
+            "label": "watch host",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "script": "watch:host",
+            "type": "npm"
+        },
+        {
+            "dependsOn": [
+                "build host",
+                "build app"
+            ],
+            "group": "build",
+            "label": "build"
+        },
+        {
+            "dependsOn": [
+                "watch host",
+                "watch app"
+            ],
+            "isBackground": true,
+            "label": "watch",
+            "problemMatcher": []
+        }
+    ],
+    "version": "2.0.0"
+}
