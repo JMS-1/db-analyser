@@ -17,8 +17,10 @@ const initialConfig: IConfigurationData = {
 
 export function useSettings(): Readonly<IConfiguration> {
     const [settings, setSettings] = React.useState<IConfigurationData>(initialConfig)
+    const [config, setConfig] = React.useState('')
 
     function loadConfig(res: IConfigResponse): void {
+        setConfig(res.configName)
         setSettings(JSON.parse(localStorage.getItem(res.configName) || JSON.stringify(initialConfig)))
     }
 
@@ -33,9 +35,16 @@ export function useSettings(): Readonly<IConfiguration> {
     return React.useMemo(
         () => ({
             ...settings,
-            update: <TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) =>
-                setSettings({ ...settings, [key]: value }),
+            update: <TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) => {
+                const newSettings = { ...settings, [key]: value }
+
+                setSettings(newSettings)
+
+                if (config) {
+                    localStorage.setItem(config, JSON.stringify(newSettings))
+                }
+            },
         }),
-        [settings]
+        [config, settings]
     )
 }
