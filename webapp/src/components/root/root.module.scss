@@ -4,6 +4,9 @@
     width: calc(100% - 2 * $padding);
     height: calc(100% - 2 * $padding);
     padding: $padding;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    row-gap: 0.5em;
     overflow: hidden;
 
     &:local(.blocked) {

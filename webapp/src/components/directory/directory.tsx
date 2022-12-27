@@ -37,9 +37,11 @@ export const Directory: React.FC<IDirectoryProps> = (props) => {
         (res: IBrowseFolderResponse) => {
             changeBlock(-1)
 
-            if (res.folder) {
-                settings.update('rootPath', res.folder)
+            if (!res.folder) {
+                return
             }
+
+            settings.update('rootPath', res.folder)
         },
         [changeBlock, settings]
     )

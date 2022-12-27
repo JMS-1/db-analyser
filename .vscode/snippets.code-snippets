@@ -2,7 +2,7 @@
     "TSX": {
         "prefix": "component",
         "body": [
-            "import classNames from 'classnames'",
+            "import { clsx } from 'clsx'",
             "import * as React from 'react'",
             "",
             "import styles from './${1:${TM_FILENAME_BASE}}.module.scss'",
@@ -12,7 +12,7 @@
             "}",
             "",
             "export const ${2:${TM_FILENAME_BASE/(.*)$/${1:/capitalize}/}}: React.FC<I${2}Props> = (props) => {",
-            "\treturn <div className={classNames(styles.${1}, props.className)}>[${1}]</div>",
+            "\treturn <div className={clsx(styles.${1}, props.className)}>[${1}]</div>",
             "}",
             ""
         ],
