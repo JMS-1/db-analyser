@@ -4,6 +4,7 @@ import * as React from 'react'
 import { electronHost } from '../../electron'
 
 interface IConfigurationData {
+    categories: Record<string, string[]>
     rootPath: string
 }
 
@@ -12,6 +13,7 @@ export interface IConfiguration extends IConfigurationData {
 }
 
 const initialConfig: IConfiguration = {
+    categories: {},
     rootPath: '',
     update: () => alert('out of bound call to settings updater'),
 }
@@ -22,7 +24,11 @@ export function useSettings(): Readonly<IConfiguration> {
 
     function loadConfig(res: IConfigResponse): void {
         setConfig(res.configName)
-        setSettings(JSON.parse(localStorage.getItem(res.configName) || JSON.stringify(initialConfig)))
+
+        setSettings({
+            ...initialConfig,
+            ...JSON.parse(localStorage.getItem(res.configName) || JSON.stringify(initialConfig)),
+        })
     }
 
     React.useEffect(() => {

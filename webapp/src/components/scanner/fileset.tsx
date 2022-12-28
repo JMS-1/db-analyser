@@ -3,6 +3,9 @@ import * as React from 'react'
 
 import { CsvFile, IBuchung } from './file'
 import styles from './fileset.module.scss'
+import { Group } from './group'
+
+import { SettingsContext } from '../settings/settings'
 
 interface IFilesetProps {
     className?: string
@@ -12,11 +15,13 @@ interface IFilesetProps {
 export const Fileset: React.FC<IFilesetProps> = (props) => {
     const { files } = props
 
+    const { categories } = React.useContext(SettingsContext)
+
     const [changes, setChanges] = React.useState(0)
 
     const analyseDone = React.useCallback(() => setChanges((c) => c + 1), [])
 
-    React.useEffect(() => files.forEach((f) => f.analyse(analyseDone)), [files, analyseDone])
+    React.useEffect(() => files.forEach((f) => f.analyse(analyseDone)), [files, categories, analyseDone])
 
     const buchungen = React.useMemo(
         () =>
@@ -33,11 +38,58 @@ export const Fileset: React.FC<IFilesetProps> = (props) => {
         [files, changes]
     )
 
+    const rules = React.useMemo(
+        () =>
+            Object.entries(categories).map(([name, rules]) => ({
+                name,
+                rules: rules.map((r) => {
+                    try {
+                        return new RegExp(r)
+                    } catch (error) {
+                        return null
+                    }
+                }),
+            })),
+        [categories]
+    )
+
+    const categorized = React.useMemo(
+        () =>
+            buchungen.map((b) => ({
+                ...b,
+                rules: rules
+                    .filter((r) => r.rules.some((r) => r?.test(b.what)))
+                    .map((r) => r.name)
+                    .join(', '),
+            })),
+        [buchungen, rules]
+    )
+
+    const grouped = React.useMemo(
+        () =>
+            Object.entries(
+                categorized.reduce((m: Record<string, IBuchung[]>, c) => {
+                    const list = m[c.rules]
+
+                    if (list) {
+                        list.push(c)
+                    } else {
+                        m[c.rules] = [c]
+                    }
+
+                    return m
+                }, {})
+            ).sort((l, r) => (!l[0] === !r[0] ? l[0].localeCompare(r[0]) : l[0] ? -1 : +1)),
+        [categorized]
+    )
+
     return (
         <div className={clsx(styles.files, props.className)}>
-            {buchungen.map((f, i) => (
-                <div key={i}>{JSON.stringify(f)}</div>
-            ))}
+            <div>
+                {grouped.map((g) => (
+                    <Group key={g[0]} members={g[1]} rule={g[0]} />
+                ))}
+            </div>
         </div>
     )
 }

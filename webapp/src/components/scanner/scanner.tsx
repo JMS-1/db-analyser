@@ -18,8 +18,7 @@ interface IScannerProps {
 export const Scanner: React.FC<IScannerProps> = (props) => {
     const { changeBlock } = props
 
-    const settings = React.useContext(SettingsContext)
-    const { rootPath } = settings
+    const { rootPath } = React.useContext(SettingsContext)
 
     const [names, setNames] = React.useState<string[]>([])
     const [analysed, setAnalysed] = React.useState(false)

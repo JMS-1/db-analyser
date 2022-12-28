@@ -29,6 +29,8 @@ export class CsvFile {
         try {
             const csv = createReadStream(this._path, { autoClose: true, encoding: 'latin1' })
 
+            csv.on('error', () => done())
+
             // eslint-disable-next-line @typescript-eslint/naming-convention
             const parser = parse({ delimiter: ';', relax_column_count: true })
 

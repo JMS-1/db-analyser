@@ -1,7 +1,8 @@
 export const strings = {
     analyse: 'Analysieren',
-    browse: 'Verzeichnis auswählen',
+    browse: 'Quellverzeichnis',
     count: (count: number) => `Dateien: ${count}`,
     directory: 'Verzeichnis:',
-    select: 'Auswählen',
+    noCategory: '(nicht zugeordnet)',
+    select: 'Verwenden',
 }

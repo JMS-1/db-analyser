@@ -1,0 +1,27 @@
+:local(.group) {
+    > :local(.header) {
+        display: grid;
+        grid-auto-flow: column;
+        column-gap: 0.2em;
+        cursor: pointer;
+        align-items: center;
+        justify-content: flex-start;
+
+        > :not(:first-child) {
+            font-weight: bold;
+        }
+    }
+
+    > :local(.details) {
+        margin-left: 1em;
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        align-items: center;
+        column-gap: 1em;
+        white-space: nowrap;
+
+        > :nth-child(3n + 2) {
+            justify-self: right;
+        }
+    }
+}

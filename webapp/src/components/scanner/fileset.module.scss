@@ -6,4 +6,10 @@
     overflow: auto;
     padding: $padding;
     background: #ffffff;
+
+    > div {
+        display: grid;
+        grid-auto-flow: row;
+        row-gap: 0.5em;
+    }
 }
