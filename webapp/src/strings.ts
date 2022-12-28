@@ -4,5 +4,6 @@ export const strings = {
     count: (count: number) => `Dateien: ${count}`,
     directory: 'Verzeichnis:',
     noCategory: '(nicht zugeordnet)',
+    rules: 'Regeln',
     select: 'Verwenden',
 }

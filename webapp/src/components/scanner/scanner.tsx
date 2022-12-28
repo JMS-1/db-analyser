@@ -8,6 +8,7 @@ import { Fileset } from './fileset'
 import styles from './scanner.module.scss'
 
 import { strings } from '../../strings'
+import { Rules } from '../rules/rules'
 import { SettingsContext } from '../settings/settings'
 
 interface IScannerProps {
@@ -78,6 +79,7 @@ export const Scanner: React.FC<IScannerProps> = (props) => {
         <div className={clsx(styles.scanner, props.className)}>
             <div className={styles.headline}>
                 <div>{strings.count(files.length)}</div>
+                <Rules />
                 <button disabled={analysed || files.length < 1} onClick={analyse}>
                     {strings.analyse}
                 </button>

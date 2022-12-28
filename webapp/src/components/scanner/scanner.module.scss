@@ -9,9 +9,9 @@
 
     > :local(.headline) {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr auto auto;
         align-items: center;
-        justify-content: space-between;
+        column-gap: 1em;
     }
 
     > :local(.list) {
