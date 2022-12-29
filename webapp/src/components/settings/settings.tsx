@@ -1,6 +1,8 @@
 import { IConfigRequest, IConfigResponse } from 'ipc'
 import * as React from 'react'
 
+import { exportToJson } from './utils'
+
 import { electronHost } from '../../electron'
 
 interface IConfigurationData {
@@ -10,11 +12,15 @@ interface IConfigurationData {
 
 export interface IConfiguration extends IConfigurationData {
     update<TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]): void
+    load(file: File): Promise<void>
+    save(): void
 }
 
 const initialConfig: IConfiguration = {
     categories: {},
+    load: async () => alert('out of bound call to settings import'),
     rootPath: '',
+    save: () => alert('out of bound call to settings export'),
     update: () => alert('out of bound call to settings updater'),
 }
 
@@ -39,21 +45,56 @@ export function useSettings(): Readonly<IConfiguration> {
 
     React.useEffect(() => electronHost.send<IConfigRequest>({ type: 'config-request' }), [])
 
-    return React.useMemo(
-        () => ({
-            ...settings,
-            update: <TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) => {
-                const newSettings = { ...settings, [key]: value }
+    const writeSettings = React.useCallback(
+        (settings: IConfigurationData) => {
+            setSettings(settings)
 
-                setSettings(newSettings)
-
-                if (config) {
-                    localStorage.setItem(config, JSON.stringify(newSettings))
-                }
-            },
-        }),
-        [config, settings]
+            if (config) {
+                localStorage.setItem(config, JSON.stringify(settings))
+            }
+        },
+        [config]
     )
+
+    const update = React.useCallback(
+        <TKey extends keyof IConfigurationData>(key: TKey, value: IConfigurationData[TKey]) =>
+            writeSettings({ ...settings, [key]: value }),
+        [settings, writeSettings]
+    )
+
+    const save = React.useCallback(() => {
+        const dataOnly: Partial<IConfiguration> = { ...settings }
+
+        delete dataOnly.update
+        delete dataOnly.save
+
+        exportToJson(dataOnly, 'Deutsche Bank')
+    }, [settings])
+
+    const load = React.useCallback(
+        async (file: File) => {
+            try {
+                const reader = new FileReader()
+
+                reader.onload = () => {
+                    const imported = JSON.parse(reader.result as string) as IConfigurationData
+
+                    if (!imported) {
+                        throw new Error('Failed to import.')
+                    }
+
+                    writeSettings({ ...settings, categories: imported.categories, rootPath: imported.rootPath })
+                }
+
+                reader.readAsText(file)
+            } catch (error) {
+                alert(error.message)
+            }
+        },
+        [settings, writeSettings]
+    )
+
+    return React.useMemo(() => ({ ...settings, load, save, update }), [load, save, settings, update])
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

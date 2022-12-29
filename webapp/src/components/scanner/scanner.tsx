@@ -19,7 +19,7 @@ interface IScannerProps {
 export const Scanner: React.FC<IScannerProps> = (props) => {
     const { changeBlock } = props
 
-    const { rootPath } = React.useContext(SettingsContext)
+    const { rootPath, categories } = React.useContext(SettingsContext)
 
     const [names, setNames] = React.useState<string[]>([])
     const [analysed, setAnalysed] = React.useState(false)
@@ -62,7 +62,7 @@ export const Scanner: React.FC<IScannerProps> = (props) => {
                 }
             })
         })
-    }, [changeBlock, rootPath])
+    }, [changeBlock, rootPath, categories])
 
     React.useEffect(() => setAnalysed(false), [names])
 
@@ -71,15 +71,14 @@ export const Scanner: React.FC<IScannerProps> = (props) => {
         [names, rootPath]
     )
 
-    function analyse(): void {
-        setAnalysed(true)
-    }
+    const analyse = React.useCallback(() => setAnalysed(true), [])
+    const unAnalyse = React.useCallback(() => setAnalysed(false), [])
 
     return (
         <div className={clsx(styles.scanner, props.className)}>
             <div className={styles.headline}>
                 <div>{strings.count(files.length)}</div>
-                <Rules />
+                <Rules onAnalyse={unAnalyse} />
                 <button disabled={analysed || files.length < 1} onClick={analyse}>
                     {strings.analyse}
                 </button>

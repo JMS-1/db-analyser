@@ -24,6 +24,11 @@ html > body {
         height: 100%;
         overflow: hidden;
         background: #dddddd;
+
+        input,
+        button {
+            font-size: 1em;
+        }
     }
 }
 
