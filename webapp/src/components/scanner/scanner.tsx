@@ -95,7 +95,7 @@ export const Scanner: React.FC<IScannerProps> = (props) => {
 
         lines.unshift('Gruppe\tDatum\tBetrag\tBuchung')
 
-        exportContent('text/csv', lines.join('\n'), 'Konto.csv')
+        exportContent('text/csv', lines.join('\n'), 'Konto.tsv')
     }, [groups])
 
     return (
