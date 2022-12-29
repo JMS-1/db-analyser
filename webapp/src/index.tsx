@@ -5,8 +5,6 @@ import { createRoot } from 'react-dom/client'
 
 import { Root } from './components/root/root'
 
-document.body.classList.add('semantic-loaded')
-
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.querySelector('body > client-root')!).render(<Root />)
 

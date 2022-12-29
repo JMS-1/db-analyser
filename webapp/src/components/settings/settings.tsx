@@ -1,7 +1,7 @@
 import { IConfigRequest, IConfigResponse } from 'ipc'
 import * as React from 'react'
 
-import { exportToJson } from './utils'
+import { exportContent } from './utils'
 
 import { electronHost } from '../../electron'
 
@@ -69,7 +69,7 @@ export function useSettings(): Readonly<IConfiguration> {
         delete dataOnly.update
         delete dataOnly.save
 
-        exportToJson(dataOnly, 'Deutsche Bank')
+        exportContent('application/json', JSON.stringify(dataOnly, null, 2), 'DB Analyser Configuration.json')
     }, [settings])
 
     const load = React.useCallback(

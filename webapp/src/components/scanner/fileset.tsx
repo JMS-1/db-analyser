@@ -10,10 +10,11 @@ import { SettingsContext } from '../settings/settings'
 interface IFilesetProps {
     className?: string
     files: CsvFile[]
+    onGroups(groups: [string, IBuchung[]][]): void
 }
 
 export const Fileset: React.FC<IFilesetProps> = (props) => {
-    const { files } = props
+    const { files, onGroups } = props
 
     const { categories } = React.useContext(SettingsContext)
 
@@ -84,6 +85,8 @@ export const Fileset: React.FC<IFilesetProps> = (props) => {
             ).sort((l, r) => (!l[0] === !r[0] ? l[0].localeCompare(r[0]) : l[0] ? -1 : +1)),
         [categorized]
     )
+
+    React.useEffect(() => onGroups(grouped), [grouped, onGroups])
 
     return (
         <div className={clsx(styles.files, props.className)}>
