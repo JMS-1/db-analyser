@@ -17,6 +17,8 @@ export const Fileset: React.FC<IFilesetProps> = (props) => {
 
     const { categories } = React.useContext(SettingsContext)
 
+    console.log(JSON.stringify(categories))
+
     const [changes, setChanges] = React.useState(1)
 
     const analyseDone = React.useCallback(() => setChanges((c) => c + 1), [])

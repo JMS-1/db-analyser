@@ -32,9 +32,22 @@
             background: #cccccc;
         }
 
+        > :local(.title) {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+        > :local(.form) {
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            row-gap: 0.5em;
+            overflow: hidden;
+        }
+
         > :local(.actions) {
             display: grid;
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: auto 1fr auto auto auto;
             column-gap: 0.5em;
             align-items: center;
 

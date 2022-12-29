@@ -65,6 +65,7 @@ export function useSettings(): Readonly<IConfiguration> {
     const save = React.useCallback(() => {
         const dataOnly: Partial<IConfiguration> = { ...settings }
 
+        delete dataOnly.rootPath
         delete dataOnly.update
         delete dataOnly.save
 
@@ -83,7 +84,7 @@ export function useSettings(): Readonly<IConfiguration> {
                         throw new Error('Failed to import.')
                     }
 
-                    writeSettings({ ...settings, categories: imported.categories, rootPath: imported.rootPath })
+                    writeSettings({ ...settings, categories: imported.categories })
                 }
 
                 reader.readAsText(file)
