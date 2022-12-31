@@ -158,7 +158,7 @@ export const Rules: React.FC<IRulesProps> = (props) => {
                             <select disabled={edit} value={selected} onChange={onSelect}>
                                 <option value=''>{strings.newRule}</option>
                                 {Object.keys(categories)
-                                    .sort()
+                                    .sort((l, r) => l.localeCompare(r))
                                     .map((c) => (
                                         <option key={c} value={c}>
                                             {c}
