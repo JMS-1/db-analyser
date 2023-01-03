@@ -76,8 +76,7 @@
         "build:app": "rimraf build/dist && cd webapp && webpack build --env production",
         "build:host": "tsc",
         "deploy:linux": "rimraf dist && npm run --scripts-prepend-node-path=true build && electron-builder --linux",
-        "deploy:windows": "docker run --rm --network=host -v $PWD:/project electronuserland/builder:wine sh -c 'yarn && yarn deploy:windows_'",
-        "deploy:windows_": "rimraf dist && npm run --scripts-prepend-node-path=true build && electron-builder --x64 --win",
+        "deploy:windows": "rimraf dist && npm run --scripts-prepend-node-path=true build && electron-builder --x64 --win",
         "start": "cross-env NODE_ENV=production node node_modules/electron/cli.js build/index",
         "watch:app": "cd webapp && webpack serve --hot",
         "watch:host": "tsc --watch"
